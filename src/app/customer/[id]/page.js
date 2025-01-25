@@ -70,7 +70,7 @@ export default function CustomerDetails() {
           <strong>Contact:</strong> {customer.contact}
         </p>
         <p>
-          <strong>Balance:</strong> ₹{customer.balance}
+          <strong>Balance:</strong> Rs {customer.balance}
         </p>
       </div>
 
@@ -135,7 +135,7 @@ export default function CustomerDetails() {
 
       {/* Total Amount */}
       <div className="mt-5 text-right">
-        <strong>Total Amount: ₹{calculateTotalAmount()}</strong>
+        <strong>Total Amount: Rs {calculateTotalAmount()}</strong>
       </div>
 
       <button

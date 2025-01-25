@@ -40,7 +40,7 @@ export default function Home() {
             </div>
             <div className="flex items-center">
               <FaBalanceScale className="text-red-500 mr-2" />
-              <p>Balance: ₹{customer.balance}</p>
+              <p>Balance: Rs {customer.balance}</p>
             </div>
           </div>
         ))}
