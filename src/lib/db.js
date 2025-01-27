@@ -1,17 +1,26 @@
-import mongoose from "mongoose";
+import { MongoClient } from "mongodb";
 
-const connectDB = async () => {
-  if (mongoose.connections[0].readyState) return;
+const uri = process.env.MONGO_URI; // Add this to your .env file
+let client;
+let clientPromise;
 
-  try {
-    await mongoose.connect(process.env.MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    console.log("Connected to MongoDB");
-  } catch (error) {
-    console.error("Error connecting to MongoDB:", error.message);
+if (!uri) {
+  throw new Error("Please add your Mongo URI to the environment variables.");
+}
+
+if (process.env.NODE_ENV === "development") {
+  if (!global._mongoClientPromise) {
+    client = new MongoClient(uri);
+    global._mongoClientPromise = client.connect();
   }
-};
+  clientPromise = global._mongoClientPromise;
+} else {
+  client = new MongoClient(uri);
+  clientPromise = client.connect();
+}
 
-export default connectDB;
+export async function connectToDatabase() {
+  const client = await clientPromise;
+  const db = client.db("your_database_name"); // Replace with your database name
+  return { client, db };
+}
