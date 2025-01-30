@@ -11,13 +11,14 @@
   "dependencies": {
     "@reduxjs/toolkit": "^2.5.0",
     "axios": "^1.7.9",
-    "moongoose": "^0.0.5",
+    "mongoose": "^8.9.5",
     "next": "15.1.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-icons": "^5.4.0",
     "react-redux": "^9.2.0",
-    "sweetalert2": "^11.15.10"
+    "sweetalert2": "^11.15.10",
+    "uninstall": "^0.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
