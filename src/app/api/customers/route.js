@@ -1,12 +1,39 @@
-import { NextResponse } from 'next/server';
+import dbConnect from "@/lib/db";
+import Customer from "@/models/Customer";
 
-let customers = [
-  { id: 1, name: 'John Doe', contact: '1234567890', balance: 500 },
-  { id: 2, name: 'Jane Smith', contact: '9876543210', balance: 1500 },
-  { id: 3, name: 'Alice Johnson', contact: '5555555555', balance: 250 },
-];
+export default async function handler(req, res) {
+  await dbConnect(); // MongoDB se connection establish karna
 
-export async function GET() {
-  // Return the customer data
-  return NextResponse.json(customers);
+  if (req.method === "POST") {
+    try {
+      const { name, phone, balance } = req.body;
+
+      // ✅ Input Validation
+      if (!name || !phone) {
+        return res.status(400).json({ message: "Name and phone are required" });
+      }
+
+      // ✅ Check if Customer Already Exists
+      const existingCustomer = await Customer.findOne({ phone });
+      if (existingCustomer) {
+        return res.status(400).json({ message: "Customer already exists" });
+      }
+
+      // ✅ Create New Customer
+      const newCustomer = new Customer({
+        name,
+        phone,
+        balance: balance || 0, // Default balance agar nahi diya gaya
+      });
+
+      await newCustomer.save();
+
+      return res.status(201).json({ message: "Customer added successfully", customer: newCustomer });
+    } catch (error) {
+      console.error("Error:", error);
+      return res.status(500).json({ message: "Server error", error: error.message });
+    }
+  }
+
+  return res.status(405).json({ message: "Method Not Allowed" });
 }
