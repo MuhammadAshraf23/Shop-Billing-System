@@ -1,39 +1,46 @@
 import dbConnect from "@/lib/db";
 import Customer from "@/models/Customer";
 
-export default async function handler(req, res) {
-  await dbConnect(); // MongoDB se connection establish karna
+export async function POST(req) {
+  await dbConnect();
 
-  if (req.method === "POST") {
-    try {
-      const { name, phone, balance } = req.body;
+  try {
+    const { name, phone, balance } = await req.json(); // Extract request body
 
-      // ✅ Input Validation
-      if (!name || !phone) {
-        return res.status(400).json({ message: "Name and phone are required" });
-      }
-
-      // ✅ Check if Customer Already Exists
-      const existingCustomer = await Customer.findOne({ phone });
-      if (existingCustomer) {
-        return res.status(400).json({ message: "Customer already exists" });
-      }
-
-      // ✅ Create New Customer
-      const newCustomer = new Customer({
-        name,
-        phone,
-        balance: balance || 0, // Default balance agar nahi diya gaya
-      });
-
-      await newCustomer.save();
-
-      return res.status(201).json({ message: "Customer added successfully", customer: newCustomer });
-    } catch (error) {
-      console.error("Error:", error);
-      return res.status(500).json({ message: "Server error", error: error.message });
+    // ✅ Input Validation
+    if (!name || !phone) {
+      return new Response(JSON.stringify({ message: "Name and phone are required" }), { status: 400 });
     }
-  }
 
-  return res.status(405).json({ message: "Method Not Allowed" });
+    // ✅ Check if Customer Already Exists
+    const existingCustomer = await Customer.findOne({ phone });
+    if (existingCustomer) {
+      return new Response(JSON.stringify({ message: "Customer already exists" }), { status: 400 });
+    }
+
+    // ✅ Create New Customer
+    const newCustomer = new Customer({
+      name,
+      phone,
+      balance: balance || 0, // Default balance if not provided
+    });
+
+    await newCustomer.save();
+    return new Response(JSON.stringify({ message: "Customer added successfully", customer: newCustomer }), { status: 201 });
+  } catch (error) {
+    console.error("Error:", error);
+    return new Response(JSON.stringify({ message: "Server error", error: error.message }), { status: 500 });
+  }
+}
+
+export async function GET() {
+  await dbConnect();
+
+  try {
+    const customers = await Customer.find({});
+    return new Response(JSON.stringify(customers), { status: 200 });
+  } catch (error) {
+    console.error("Error:", error);
+    return new Response(JSON.stringify({ message: "Server error", error: error.message }), { status: 500 });
+  }
 }

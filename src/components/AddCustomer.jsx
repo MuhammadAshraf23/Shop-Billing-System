@@ -49,6 +49,7 @@ export default function AddCustomer() {
         title: "Server Error",
         text: error.response?.data.message || "Error adding customer",
       });
+      console.log("erro",error)
     } finally {
       setLoading(false);
     }
