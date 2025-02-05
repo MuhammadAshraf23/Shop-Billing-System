@@ -6,7 +6,7 @@ async function fetchCustomer(id) {
 }
 
 export default async function CustomerDetails({ params }) {
-  const { id } = params; // Destructure id from params
+  const { id } = params; 
   const customer = await fetchCustomer(id);
   
   if (!customer) return notFound();
