@@ -2,13 +2,14 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2"; // Import SweetAlert2
+import { useRouter } from "next/navigation";
 
 export default function AddCustomer() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [balance, setBalance] = useState(0);
   const [loading, setLoading] = useState(false);
-
+  const router= useRouter()
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -43,6 +44,7 @@ export default function AddCustomer() {
       setName("");
       setPhone("");
       setBalance(0);
+      router.push("/")
     } catch (error) {
       Swal.fire({
         icon: "error",
