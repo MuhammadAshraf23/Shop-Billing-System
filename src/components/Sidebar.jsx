@@ -7,8 +7,6 @@ import {
   FiCreditCard, 
   FiBox, 
   FiBarChart2, 
-  FiSettings, 
-  FiHelpCircle, 
   FiLogOut 
 } from "react-icons/fi";
 
