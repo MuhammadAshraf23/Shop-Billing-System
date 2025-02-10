@@ -5,41 +5,47 @@ export async function POST(req) {
   await dbConnect();
 
   try {
-    const { customerId, products } = await req.json(); // Extract data from request body
+    const body = await req.json();
+    console.log("Received body:", body);
 
-    // Validate input
+    const { customerId, products } = body;
+
     if (!customerId || !products || products.length === 0) {
-      return new Response(JSON.stringify({ message: "Customer ID and products are required" }), { status: 400 });
+      return new Response(
+        JSON.stringify({ message: "Customer ID and products are required" }),
+        { status: 400 }
+      );
     }
 
-    // Calculate totalAmount
+    // Transform product fields to match schema
     let totalAmount = 0;
-    products.map((item) => {
+    const processedProducts = products.map((item) => {
       const amount = item.quantity * item.rate;
       totalAmount += amount;
-      return { ...item, amount }; // Ensure each item has an amount field
+      return { 
+        productName: item.name, // Fix: Rename `name` → `productName`
+        quantity: item.quantity, 
+        rate: item.rate, 
+        amount 
+      };
     });
 
     const newOrder = new Order({
       customerId,
-      products,
+      products: processedProducts, // Use the corrected structure
       totalAmount,
     });
 
     await newOrder.save();
-    return new Response(JSON.stringify({ message: "Order placed successfully!", order: newOrder }), { status: 201 });
+    return new Response(
+      JSON.stringify({ message: "Order placed successfully!", order: newOrder }),
+      { status: 201 }
+    );
   } catch (error) {
-    return new Response(JSON.stringify({ message: "Server error", error: error.message }), { status: 500 });
-  }
-}
-
-export async function GET() {
-  await dbConnect();
-
-  try {
-    const orders = await Order.find({});
-    return new Response(JSON.stringify(orders), { status: 200 });
-  } catch (error) {
-    return new Response(JSON.stringify({ message: "Server error", error: error.message }), { status: 500 });
+    console.error("Error:", error);
+    return new Response(
+      JSON.stringify({ message: "Server error", error: error.message }),
+      { status: 500 }
+    );
   }
 }

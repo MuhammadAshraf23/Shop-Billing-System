@@ -7,7 +7,7 @@ export const CustomerProvider = ({ children }) => {
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
+  console.table("cutomers",customers)
   useEffect(() => {
     const fetchCustomers = async () => {
       try {

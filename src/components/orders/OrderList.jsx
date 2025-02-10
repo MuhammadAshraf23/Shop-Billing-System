@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function OrderList() {
@@ -34,6 +35,12 @@ export default function OrderList() {
   return (
     <div className="p-4 border rounded-lg shadow-md bg-white mt-6">
       <h2 className="text-xl font-semibold mb-4">Order List</h2>
+      <Link href="/orders">
+        <button className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition duration-300">
+          Add Products
+        </button>
+      </Link>
+
       {orders.length === 0 ? (
         <p className="text-gray-500">No orders found.</p>
       ) : (
@@ -42,11 +49,15 @@ export default function OrderList() {
             <li key={order._id} className="p-3 border rounded shadow">
               <h3 className="font-semibold">Order ID: {order._id}</h3>
               <p>Customer ID: {order.customerId}</p>
-              <p>Total Amount: <span className="font-bold">${order.totalAmount}</span></p>
+              <p>
+                Total Amount:{" "}
+                <span className="font-bold">${order.totalAmount}</span>
+              </p>
               <ul className="ml-4 mt-2 list-disc">
                 {order.products.map((product, index) => (
                   <li key={index}>
-                    {product.name} - {product.quantity} x ${product.rate} = ${product.amount}
+                    {product.name} - {product.quantity} x ${product.rate} = $
+                    {product.amount}
                   </li>
                 ))}
               </ul>

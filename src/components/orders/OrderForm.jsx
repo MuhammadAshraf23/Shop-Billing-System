@@ -28,7 +28,7 @@ export default function OrderForm({ refreshOrders }) {
     setError("");
 
     try {
-      const res = await fetch("/api/orders", {
+      const res = await fetch("/api/orders/add", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ customerId, products }),
