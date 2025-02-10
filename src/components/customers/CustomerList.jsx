@@ -1,31 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCustomer } from "@/context/CustomerContext";
 import { useRouter } from "next/navigation";
 
 const CustomerList = () => {
-  const [customers, setCustomers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const { customers, loading, error } = useCustomer();
   const router = useRouter();
-
-  useEffect(() => {
-    const fetchCustomers = async () => {
-      try {
-        const res = await fetch("/api/customers");
-        if (!res.ok) throw new Error("Failed to fetch customers");
-
-        const data = await res.json();
-        setCustomers(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCustomers();
-  }, []);
 
   if (loading) {
     return (
