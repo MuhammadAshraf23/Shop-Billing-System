@@ -49,3 +49,19 @@ export async function POST(req) {
     );
   }
 }
+
+// ✅ GET request handler to fetch all orders
+export async function GET() {
+  await dbConnect();
+
+  try {
+    const orders = await Order.find({});
+    return new Response(JSON.stringify(orders), { status: 200 });
+  } catch (error) {
+    console.error("Error fetching orders:", error);
+    return new Response(
+      JSON.stringify({ message: "Server error", error: error.message }),
+      { status: 500 }
+    );
+  }
+}

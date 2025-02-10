@@ -1,13 +1,14 @@
 "use client";
 
+import { Router, useRouter } from "next/navigation";
 import { useState } from "react";
 
-export default function OrderForm({ refreshOrders }) {
+export default function OrderForm() {
   const [customerId, setCustomerId] = useState("");
   const [products, setProducts] = useState([{ name: "", quantity: 1, rate: 0 }]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
+  const router=useRouter()
   const handleProductChange = (index, field, value) => {
     const updatedProducts = [...products];
     updatedProducts[index][field] = value;
@@ -21,32 +22,39 @@ export default function OrderForm({ refreshOrders }) {
   const removeProduct = (index) => {
     setProducts(products.filter((_, i) => i !== index));
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError("");
-
+  
     try {
       const res = await fetch("/api/orders/add", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ customerId, products }),
+        body: JSON.stringify({
+          customerId,
+          products: products.map((item) => ({
+            ...item,
+            rate: parseFloat(item.rate), // Convert rate to number
+            quantity: parseInt(item.quantity, 10), // Convert quantity to integer
+          })),
+        }),
       });
-
+  
       const data = await res.json();
       if (!res.ok) throw new Error(data.message);
-
+  
       alert("Order placed successfully!");
       setCustomerId("");
       setProducts([{ name: "", quantity: 1, rate: 0 }]);
-      refreshOrders();
+      router.push("/")
     } catch (err) {
       setError(err.message);
     } finally {
       setLoading(false);
     }
   };
+  
 
   return (
     <div className="p-4 border rounded-lg shadow-md bg-white">
@@ -73,14 +81,14 @@ export default function OrderForm({ refreshOrders }) {
               type="number"
               placeholder="Quantity"
               value={product.quantity}
-              onChange={(e) => handleProductChange(index, "quantity", Number(e.target.value))}
+              onChange={(e) => handleProductChange(index, "quantity", (e.target.value))}
               className="border p-2 rounded w-full mb-1"
             />
             <input
               type="number"
               placeholder="Rate"
               value={product.rate}
-              onChange={(e) => handleProductChange(index, "rate", Number(e.target.value))}
+              onChange={(e) => handleProductChange(index, "rate", (e.target.value))}
               className="border p-2 rounded w-full mb-1"
             />
             <button type="button" onClick={() => removeProduct(index)} className="text-red-500">

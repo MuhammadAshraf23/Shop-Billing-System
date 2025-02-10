@@ -27,7 +27,7 @@ export const CustomerProvider = ({ children }) => {
   }, []);
 
   return (
-    <CustomerContext.Provider value={{ customers, loading, error }}>
+    <CustomerContext.Provider value={{ customers, loading, error,setLoading,setError }}>
       {children}
     </CustomerContext.Provider>
   );

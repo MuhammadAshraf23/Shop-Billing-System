@@ -23,7 +23,7 @@ export default function Home() {
         <Navbar toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} />
 
         {/* Content */}
-        <div className="p-6">
+        <div className="p-6 h-[100vh] overflow-y-auto">
           {activeSection === "dashboard" && (
             <>
               {/* Dashboard Stats */}
