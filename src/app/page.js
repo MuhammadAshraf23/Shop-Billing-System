@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import CustomerList from "@/components/customers/CustomerList";
 import { FiUsers, FiFileText, FiDollarSign } from "react-icons/fi";
 import { useCustomer } from "@/context/CustomerContext";
+import OrderList from "@/components/orders/OrderList";
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState("dashboard");
@@ -53,6 +54,7 @@ export default function Home() {
           )}
 
           {activeSection === "customers" && <CustomerList />}
+          {activeSection === "orders" && <OrderList />}
         </div>
       </div>
     </div>

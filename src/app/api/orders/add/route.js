@@ -14,7 +14,7 @@ export async function POST(req) {
 
     // Calculate totalAmount
     let totalAmount = 0;
-    products = products.map((item) => {
+    products.map((item) => {
       const amount = item.quantity * item.rate;
       totalAmount += amount;
       return { ...item, amount }; // Ensure each item has an amount field

@@ -34,11 +34,11 @@ const Sidebar = ({ isOpen, setActiveSection }) => {
           <span>Customers</span>
         </button>
         <button
-          onClick={() => setActiveSection("billing")}
+          onClick={() => setActiveSection("orders")}
           className="flex items-center space-x-3 p-3 hover:bg-blue-800 rounded-lg w-full"
         >
           <FiDollarSign />
-          <span>Billing</span>
+          <span>Orders</span>
         </button>
         <button
           onClick={() => setActiveSection("invoices")}
