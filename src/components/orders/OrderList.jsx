@@ -47,8 +47,8 @@ export default function OrderList() {
       ) : (
         <ul className="mt-4 space-y-6">
           {orders.map((order) => {
-            // Find the matching customer using `order.customerId`
-            const customer = customers.find((c) => c._id === order.customerId);
+            // Find the matching customer using `order.CusmtomerName`
+            const customer = customers.find((c) => c._id === order.customerName);
 
             console.log("Matching Customer:", customer);
 
