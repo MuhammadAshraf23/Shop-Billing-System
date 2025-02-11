@@ -2,11 +2,7 @@ import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema(
   {
-    customerId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Customer", // Customer ID (Reference to Customers Collection)
-      required: true,
-    },
+    customerName: { type: String, required: true },
     products: [
       {
         productName: { type: String, required: true },

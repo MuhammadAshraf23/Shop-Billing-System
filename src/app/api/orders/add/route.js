@@ -8,11 +8,11 @@ export async function POST(req) {
     const body = await req.json();
     console.log("Received body:", body);
 
-    const { customerId, products } = body;
+    const { customerName, products } = body; // Change customerId → customerName
 
-    if (!customerId || !products || products.length === 0) {
+    if (!customerName || !products || products.length === 0) {
       return new Response(
-        JSON.stringify({ message: "Customer ID and products are required" }),
+        JSON.stringify({ message: "Customer name and products are required" }),
         { status: 400 }
       );
     }
@@ -22,17 +22,17 @@ export async function POST(req) {
     const processedProducts = products.map((item) => {
       const amount = item.quantity * item.rate;
       totalAmount += amount;
-      return { 
+      return {
         productName: item.name, // Fix: Rename `name` → `productName`
-        quantity: item.quantity, 
-        rate: item.rate, 
-        amount 
+        quantity: item.quantity,
+        rate: item.rate,
+        amount,
       };
     });
 
     const newOrder = new Order({
-      customerId,
-      products: processedProducts, // Use the corrected structure
+      customerName, // Store customerName instead of customerId
+      products: processedProducts,
       totalAmount,
     });
 
@@ -49,13 +49,11 @@ export async function POST(req) {
     );
   }
 }
-
-// ✅ GET request handler to fetch all orders
 export async function GET() {
   await dbConnect();
 
   try {
-    const orders = await Order.find({});
+    const orders = await Order.find({}); // Fetch all orders with customerName
     return new Response(JSON.stringify(orders), { status: 200 });
   } catch (error) {
     console.error("Error fetching orders:", error);
