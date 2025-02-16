@@ -17,7 +17,7 @@ export default function AddCustomer() {
 
     // Input validation
     if (!name || !phone) {
-      Swal.fire({
+      Swal.fire({ //
         icon: "error",
         title: "Input Error",
         text: "Name and phone are required",
@@ -25,7 +25,6 @@ export default function AddCustomer() {
       setLoading(false);
       return;
     }
-
     try {
       const response = await axios.post("/api/customers", {
         name,
