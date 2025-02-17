@@ -39,7 +39,7 @@ export default function Home() {
                   <FiDollarSign className="text-green-500 text-3xl" />
                   <div>
                     <h3 className="text-lg font-semibold">Total Revenue</h3>
-                    <p className="text-gray-600">$15,230</p>
+                    <p className="text-gray-600">Rs15,230</p>
                   </div>
                 </div>
                 <div className="bg-white shadow-md p-4 rounded-lg flex items-center space-x-4">

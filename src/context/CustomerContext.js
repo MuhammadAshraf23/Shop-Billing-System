@@ -5,6 +5,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 const CustomerContext = createContext();
 export const CustomerProvider = ({ children }) => {
   const [customers, setCustomers] = useState([]);
+  const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   console.table("cutomers",customers)
@@ -27,7 +28,7 @@ export const CustomerProvider = ({ children }) => {
   }, []);
 
   return (
-    <CustomerContext.Provider value={{ customers, loading, error,setLoading,setError }}>
+    <CustomerContext.Provider value={{ customers,orders,setOrders, loading, error,setLoading,setError }}>
       {children}
     </CustomerContext.Provider>
   );

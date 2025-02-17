@@ -11,7 +11,7 @@ const customerSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true, // Ensure phone numbers are unique
-      match: [/^\d{10,15}$/, "Please enter a valid phone number"], // 10-15 digit phone numbers
+      match: [/^\d{10,15}Rs/, "Please enter a valid phone number"], // 10-15 digit phone numbers
     },
     balance: {
       type: Number,

@@ -4,7 +4,7 @@ import { useCustomer } from "@/context/CustomerContext";
 import { useRouter } from "next/navigation";
 
 const CustomerList = () => {
-  const { customers, loading, error } = useCustomer();
+  const { customers, loading, error, orders } = useCustomer();
   const router = useRouter();
 
   if (loading) {
@@ -41,26 +41,40 @@ const CustomerList = () => {
         <p className="text-center text-gray-500">No customers found.</p>
       ) : (
         <div className="grid gap-4">
-          {customers.map((customer) => (
-            <div
-              key={customer._id}
-              className="p-4 bg-white shadow-md rounded-lg border flex justify-between items-center cursor-pointer hover:shadow-lg hover:scale-105 transition-transform duration-300"
-            >
-              <div>
-                <h3 className="text-lg font-semibold">{customer.name}</h3>
-                <p className="text-sm text-gray-500">📞 {customer.phone}</p>
-                <p className="text-sm font-semibold text-green-600">
-                  💰 Balance: ${customer.balance}
-                </p>
-              </div>
-              <button
-                onClick={() => router.push(`/customers/${customer._id}`)}
-                className="px-3 py-1 bg-gray-200 rounded-md hover:bg-gray-300 transition"
+          {customers.map((customer) => {
+            // Calculate total amount from orders for this customer
+            const customerOrders = orders.filter(
+              (order) => order.customerName === customer.name
+            );
+            const totalAmount = customerOrders.reduce(
+              (sum, order) => sum + (order.totalAmount || 0),
+              0
+            );
+
+            return (
+              <div
+                key={customer._id}
+                className="p-4 bg-white shadow-md rounded-lg border flex justify-between items-center cursor-pointer hover:shadow-lg hover:scale-105 transition-transform duration-300"
               >
-                View Details
-              </button>
-            </div>
-          ))}
+                <div>
+                  <h3 className="text-lg font-semibold">{customer.name}</h3>
+                  <p className="text-sm text-gray-500">📞 {customer.phone}</p>
+                  <p className="text-sm font-semibold text-green-600">
+                    💰 Balance: Rs{customer.balance}
+                  </p>
+                  <p className="text-sm font-semibold text-blue-600">
+                    🏷️ Total Orders Amount: Rs{totalAmount}
+                  </p>
+                </div>
+                <button
+                  onClick={() => router.push(`/customers/${customer._id}`)}
+                  className="px-3 py-1 bg-gray-200 rounded-md hover:bg-gray-300 transition"
+                >
+                  View Details
+                </button>
+              </div>
+            );
+          })}
         </div>
       )}
     </div>

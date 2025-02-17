@@ -13,7 +13,7 @@ import {
 const Sidebar = ({ isOpen, setActiveSection }) => {
   return (
     <aside
-      className={`bg-blue-900 text-white w-64 space-y-6 py-6 px-4  h-full transition-transform duration-300 ${
+      className={`bg-blue-900 text-white w-64 space-y-6 py-6 px-4  h-full transition-transform duration-300 Rs{
         isOpen ? "translate-x-0" : "-translate-x-64"
       }`}
     >
