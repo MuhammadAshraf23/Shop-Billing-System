@@ -11,7 +11,9 @@ import OrderList from "@/components/orders/OrderList";
 export default function Home() {
   const [activeSection, setActiveSection] = useState("dashboard");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true); // ✅ Fix: Added sidebar state
-  const { customers} = useCustomer();
+  const { customers,orders} = useCustomer();
+  console.log("length",orders)
+  console.log("custimers---->",customers)
   return (
     <div className="flex min-h-screen bg-gray-100">
       {/* Sidebar */}
@@ -46,7 +48,7 @@ export default function Home() {
                   <FiFileText className="text-red-500 text-3xl" />
                   <div>
                     <h3 className="text-lg font-semibold">Pending Bills</h3>
-                    <p className="text-gray-600">5</p>
+                    <p className="text-gray-600">{orders.length}</p>
                   </div>
                 </div>
               </div>
