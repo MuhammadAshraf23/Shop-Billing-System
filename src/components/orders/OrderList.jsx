@@ -53,13 +53,13 @@ export default function OrderList() {
 
             return (
               <li key={order._id} className="p-4 border rounded-lg shadow-md bg-gray-50">
-                <h3 className="text-lg font-semibold">🆔 Order ID: {order._id}</h3>
+                {/* <h3 className="text-lg font-semibold">🆔 Order ID: {order._id}</h3>
                 <p className="text-gray-700">
                   👤 Customer ID:{" "}
                   <span className="font-medium">
                     {customer ? customer._id : "Unknown"}
                   </span>
-                </p>
+                </p> */}
                 <p className="text-gray-700">
                   👤 Customer Name:{" "}
                   <span className="font-medium">
